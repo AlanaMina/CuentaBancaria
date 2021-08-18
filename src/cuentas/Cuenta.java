@@ -20,17 +20,17 @@ public class Cuenta {
 		return this.saldo;
 	}
 	
-	public void retirar(int retiro) {
-		this.validarMonto(retiro);
-		if (saldo < retiro) {
+	public void retirar(double d) {
+		this.validarMonto(d);
+		if (saldo < d) {
 			throw new Error("No puede extraer más dinero del que tiene");
 		}
-		this.saldo -= retiro;
-		this.crearTransaccion("Retiro", retiro);
+		this.saldo -= d;
+		this.crearTransaccion("Retiro", d);
 	}
 	
-	protected void validarMonto(int monto) {
-		if (monto < 0) {
+	protected void validarMonto(double d) {
+		if (d < 0) {
 			throw new Error("El monto no puede ser negativo");
 		}
 	}
@@ -49,9 +49,9 @@ public class Cuenta {
 		this.crearTransaccion("Transferencia", monto);
 	}
 	
-	public void crearTransaccion(String motivo, int monto) {
+	public void crearTransaccion(String motivo, double d) {
 		Date date = new Date();
-		Transaccion transaccion = new Transaccion(motivo, monto, date);
+		Transaccion transaccion = new Transaccion(motivo, d, date);
 		transacciones[cant_transacciones] = transaccion;
 		cant_transacciones++;
 	}

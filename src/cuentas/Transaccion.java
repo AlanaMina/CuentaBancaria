@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Transaccion {
 	private String motivo;
-	private int monto;
+	private double monto;
 	private Date fecha;
 	
-	public Transaccion(String motivo, int monto, Date date) {
-		this.monto = monto;
+	public Transaccion(String motivo, double d, Date date) {
+		this.monto = d;
 		this.motivo = motivo;
 		this.fecha = date;
 	}
