@@ -1,17 +1,19 @@
 package cuentas;
 
-public class TarjetaCredito {
-	private int saldo = 0;
+public class TarjetaCredito extends Producto implements Comprable{
+	private double montoAcumulado;
 	
-	public void comprar(int monto) {
-		this.saldo += monto;
+	public TarjetaCredito(Cuenta cuenta) {
+		super(cuenta);
 	}
 	
-	public int saldoAcumulado() {
-		return saldo;
+	@Override
+	public void comprar(double monto) {
+		this.montoAcumulado += monto;
 	}
 	
-	public void debito(Cuenta cuenta) {
-		cuenta.retirar(this.saldo * 1.03);
+	public void pagar() {
+		this.cuenta.extraerCredito(this.montoAcumulado * 1.03);
+		this.montoAcumulado = 0;
 	}
 }

@@ -1,7 +1,6 @@
 package cuentas;
 
 import java.util.Arrays;
-import java.util.Date;
 
 public class Cuenta {
 	protected int saldo = 0;
@@ -69,5 +68,38 @@ public class Cuenta {
 	
 	public void ordenarPorMonto() {
 		Arrays.sort(transacciones,0, this.cant_transacciones, new ComparadorPorMonto());
+	}
+
+	public void extraerDebito(double d) {
+		this.validarMonto(d);
+		if (saldo < d) {
+			throw new Error("No puede usar más dinero del que tiene");
+		}
+		this.saldo -= d;
+		this.crearTransaccion(MotivoTransaccion.COMPRA_DEBITO, d, this, this);
+	}
+
+	public void extraerCredito(double d) {
+		this.validarMonto(d);
+		if (saldo < d) {
+			throw new Error("No puede usar más dinero del que tiene");
+		}
+		this.saldo -= d;
+		this.crearTransaccion(MotivoTransaccion.COMPRA_CREDITO, d, this, this);
+	}
+
+	public void acreditarPlazoFijo(double d) {
+		this.validarMonto(d);
+		this.saldo += d;
+		this.crearTransaccion(MotivoTransaccion.ACREDITAMIENTO_PLAZO_FIJO, d, this, this);
+	}
+
+	public void reservarPlazoFijo(double d) {
+		this.validarMonto(d);
+		if (saldo < d) {
+			throw new Error("No puede usar más dinero del que tiene");
+		}
+		this.saldo -= d;
+		this.crearTransaccion(MotivoTransaccion.RESERVAR_PLAZO_FIJO, d, this, this);
 	}
 }

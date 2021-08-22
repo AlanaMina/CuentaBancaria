@@ -1,13 +1,13 @@
 package cuentas;
 
-public class TarjetaDebito {
-	Cuenta cuenta;
+public class TarjetaDebito extends Producto implements Comprable{
 	
 	public TarjetaDebito(Cuenta cuenta) {
-		this.cuenta = cuenta;
+		super(cuenta);
 	}
 
+	@Override
 	public void comprar(double monto) {
-		cuenta.retirar(monto);
+		this.cuenta.extraerDebito(monto);
 	}
 }

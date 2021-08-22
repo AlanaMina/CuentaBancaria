@@ -1,20 +1,20 @@
 package cuentas;
 
-public class PlazoFijo {
-	Cuenta cuenta;
-	private double monto;
+public class PlazoFijo extends Producto{
+	private double reservado;
 	private int meses;
 	
 	public PlazoFijo(Cuenta cuenta, double monto, int meses) {
-		this.monto = monto;
-		this.cuenta = cuenta;
+		super(cuenta);
+		this.reservado = monto;
 		this.meses = meses;
+		cuenta.reservarPlazoFijo(this.reservado);
 	}
 	
-	public void debitar() {
+	public void acreditar() {
 		for (int i = 0; i < meses; i++) {
-			monto *= 1.36; 
+			reservado *= (1 + (0.36/12)); 
 		}
-		cuenta.retirar(monto);
+		this.cuenta.acreditarPlazoFijo(reservado);
 	}
 }
