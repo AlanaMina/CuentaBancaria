@@ -1,20 +1,20 @@
 package cuentas;
 
 public class CuentaCorriente extends Cuenta {
-	private int extra;
+	private final double LIMITE_DESCUBIERTO;
 	
 	public CuentaCorriente(int saldoInicial, int extra) {
 		super(saldoInicial);
-		this.extra = extra;
+		this.LIMITE_DESCUBIERTO = extra;
 	}
 
 	@Override
-	public void retirar(int retiro) {
+	public void retirar(double retiro) {
 		super.validarMonto(retiro);
-		if ((saldo+this.extra) < retiro) {
+		if ((saldo+this.LIMITE_DESCUBIERTO) < retiro) {
 			throw new Error("No puede extraer más dinero del que tiene");
 		}
 		this.saldo -= retiro;
-		this.crearTransaccion("Retiro", retiro);
+		this.crearTransaccion(MotivoTransaccion.EXTRACION, retiro, this, this);
 	}
 }

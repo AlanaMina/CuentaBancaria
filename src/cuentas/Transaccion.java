@@ -3,15 +3,19 @@ package cuentas;
 import java.util.Date;
 import java.util.Objects;
 
-public class Transaccion {
-	private String motivo;
+public class Transaccion implements Comparable<Transaccion>{
+	private MotivoTransaccion motivo;
 	private double monto;
 	private Date fecha;
+	private Cuenta origen;
+	private Cuenta destino;
 	
-	public Transaccion(String motivo, double d, Date date) {
+	public Transaccion(MotivoTransaccion motivo, double d, Cuenta origen, Cuenta destino) {
 		this.monto = d;
 		this.motivo = motivo;
-		this.fecha = date;
+		this.fecha = new Date();
+		this.origen = origen;
+		this.destino = destino;
 	}
 	
 	public Date getFecha() {
@@ -38,5 +42,14 @@ public class Transaccion {
 			return false;
 		Transaccion other = (Transaccion) obj;
 		return Objects.equals(fecha, other.fecha) && monto == other.monto && Objects.equals(motivo, other.motivo);
+	}
+
+	@Override
+	public int compareTo(Transaccion o) {
+		return this.motivo.compareTo(o.motivo);
+	}
+	
+	public Double getMonto() {
+		return this.monto;
 	}
 }

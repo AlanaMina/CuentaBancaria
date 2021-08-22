@@ -13,7 +13,7 @@ public class Cuenta {
 		this.validarMonto(saldoInicial);
 		this.saldo = saldoInicial;
 		this.transacciones = new Transaccion[CANT_TRANSACCIONES];
-		this.crearTransaccion("Creación de cuenta", saldoInicial);
+		this.crearTransaccion(MotivoTransaccion.DEPOSITO, saldoInicial, this, this);
 	}
 	
 	public int getSaldo() {
@@ -26,7 +26,7 @@ public class Cuenta {
 			throw new Error("No puede extraer más dinero del que tiene");
 		}
 		this.saldo -= d;
-		this.crearTransaccion("Retiro", d);
+		this.crearTransaccion(MotivoTransaccion.EXTRACION, d, this, this);
 	}
 	
 	protected void validarMonto(double d) {
@@ -38,7 +38,7 @@ public class Cuenta {
 	public void depositar(int deposito) {
 		this.validarMonto(deposito);
 		this.saldo += deposito;
-		this.crearTransaccion("Depósito", deposito);
+		this.crearTransaccion(MotivoTransaccion.DEPOSITO, deposito, this, this);
 	}
 	
 	public void transferir(int monto, Cuenta cuentaDestino) {
@@ -46,12 +46,11 @@ public class Cuenta {
 		this.retirar(monto);
 		cuentaDestino.depositar(monto);
 		//¿Qué pasaría la operación de transferir se ve interrumpida a la mitad de su ejecución? ¿Cómo se podría prevenir esto?
-		this.crearTransaccion("Transferencia", monto);
+		this.crearTransaccion(MotivoTransaccion.TRANSFERENCIA, monto, this, cuentaDestino);
 	}
 	
-	public void crearTransaccion(String motivo, double d) {
-		Date date = new Date();
-		Transaccion transaccion = new Transaccion(motivo, d, date);
+	public void crearTransaccion(MotivoTransaccion motivo, double d, Cuenta origen, Cuenta destino) {
+		Transaccion transaccion = new Transaccion(motivo, d, origen, destino);
 		transacciones[cant_transacciones] = transaccion;
 		cant_transacciones++;
 	}
@@ -61,6 +60,14 @@ public class Cuenta {
 	}
 	
 	public void ordenarPorFecha() {
-		Arrays.sort(transacciones,0, this.cant_transacciones, new ComparadorFecha());
+		Arrays.sort(this.transacciones,0, this.cant_transacciones, new ComparadorFecha());
+	}
+	
+	public void ordenarPorMotivo() {
+		Arrays.sort(this.transacciones, 0, this.cant_transacciones);
+	}
+	
+	public void ordenarPorMonto() {
+		Arrays.sort(transacciones,0, this.cant_transacciones, new ComparadorPorMonto());
 	}
 }

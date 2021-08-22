@@ -8,12 +8,12 @@ public class CuentaAhorro extends Cuenta {
 	}
 
 	@Override
-	public void retirar(int retiro) {
+	public void retirar(double retiro) {
 		super.validarMonto(retiro);
 		if (saldo*SALDO_SECUNDARIO < retiro) {
 			throw new Error("No puede extraer más dinero del que tiene");
 		}
 		this.saldo -= retiro;
-		this.crearTransaccion("Retiro", retiro);
+		this.crearTransaccion(MotivoTransaccion.EXTRACION, retiro, this, this);
 	}
 }
