@@ -106,10 +106,39 @@ public class CuentaBancariaTest {
 		String cuentaOrigenActual = Arrays.deepToString(cuentaOrigen.mostrarTransacciones());
 		String cuentaDestinoActual = Arrays.deepToString(cuentaDestino.mostrarTransacciones());
 		
-		String cuentaOrigenexpected = "[Creación de cuenta por el valor de 1000, Retiro por el valor de 550, Transferencia por el valor de 550, null, null, null, null, null, null, null]";
-		String cuentaDestinoexpected = "[Creación de cuenta por el valor de 0, Depósito por el valor de 550, null, null, null, null, null, null, null, null]";
+		String cuentaOrigenexpected = "[DEPOSITO por el valor de 1000.0, EXTRACION por el valor de 550.0, TRANSFERENCIA por el valor de 550.0, null, null, null, null, null, null, null]";
+		String cuentaDestinoexpected = "[DEPOSITO por el valor de 0.0, DEPOSITO por el valor de 550.0, null, null, null, null, null, null, null, null]";
 		
 		assertEquals(cuentaOrigenexpected, cuentaOrigenActual);
 		assertEquals(cuentaDestinoexpected, cuentaDestinoActual);
 	}
+	
+	 @Test
+	 public void ordenarTransacciones() {
+		Cuenta cuentaOrigen = new Cuenta(1000);
+		Cuenta cuentaDestino = new Cuenta(0);
+		cuentaOrigen.transferir(550, cuentaDestino);
+		cuentaOrigen.ordenarPorMotivo();
+		cuentaDestino.ordenarPorMotivo();
+		String cuentaOrigenActual = Arrays.deepToString(cuentaOrigen.mostrarTransacciones());
+		String cuentaDestinoActual = Arrays.deepToString(cuentaDestino.mostrarTransacciones());
+		
+		String cuentaOrigenexpected = "[EXTRACION por el valor de 550.0, DEPOSITO por el valor de 1000.0, TRANSFERENCIA por el valor de 550.0, null, null, null, null, null, null, null]";
+		String cuentaDestinoexpected = "[DEPOSITO por el valor de 0.0, DEPOSITO por el valor de 550.0, null, null, null, null, null, null, null, null]";
+		
+		assertEquals(cuentaOrigenexpected, cuentaOrigenActual);
+		assertEquals(cuentaDestinoexpected, cuentaDestinoActual);
+		
+		cuentaOrigen.ordenarPorMonto();
+		cuentaDestino.ordenarPorMonto();
+		
+		cuentaOrigenActual = Arrays.deepToString(cuentaOrigen.mostrarTransacciones());
+		cuentaDestinoActual = Arrays.deepToString(cuentaDestino.mostrarTransacciones());
+		
+		cuentaOrigenexpected = "[EXTRACION por el valor de 550.0, TRANSFERENCIA por el valor de 550.0, DEPOSITO por el valor de 1000.0, null, null, null, null, null, null, null]";
+		cuentaDestinoexpected = "[DEPOSITO por el valor de 0.0, DEPOSITO por el valor de 550.0, null, null, null, null, null, null, null, null]";
+		
+		assertEquals(cuentaOrigenexpected, cuentaOrigenActual);
+		assertEquals(cuentaDestinoexpected, cuentaDestinoActual);
+	 }
 }

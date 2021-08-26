@@ -24,5 +24,13 @@ public class App {
 		System.out.println(cuentaDestino.getSaldo()); //550
 		System.out.println(Arrays.deepToString(cuentaOrigen.mostrarTransacciones()));
 		System.out.println(Arrays.deepToString(cuentaDestino.mostrarTransacciones()));
+		cuentaOrigen.ordenarPorMotivo();
+		System.out.println(Arrays.deepToString(cuentaOrigen.mostrarTransacciones()));
+		cuentaOrigen.ordenarPorMonto();
+		System.out.println(Arrays.deepToString(cuentaOrigen.mostrarTransacciones()));
+		cuentaDestino.ordenarPorMotivo();
+		System.out.println(Arrays.deepToString(cuentaDestino.mostrarTransacciones()));
+		cuentaDestino.ordenarPorMonto();
+		System.out.println(Arrays.deepToString(cuentaDestino.mostrarTransacciones()));
 	}
 }
